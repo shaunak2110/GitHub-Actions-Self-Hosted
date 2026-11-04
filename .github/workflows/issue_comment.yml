@@ -1,0 +1,36 @@
+
+name: Create a comment on new issues
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  comment-with-action:
+    runs-on: self-hosted
+    steps:
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello! This issue was automatically acknowledged by GitHub Actions running on AWS EC2.
+            Thank you for creating it!
+
+  comment-with-api:
+    runs-on: self-hosted
+    steps:
+      - name: Create comment using GitHub CLI
+        run: |
+          gh api \
+            --method POST \
+            "/repos/$GITHUB_REPOSITORY/issues/$ISSUE_NUMBER/comments" \
+            -f body="Me too! This comment was posted using the GitHub API."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
