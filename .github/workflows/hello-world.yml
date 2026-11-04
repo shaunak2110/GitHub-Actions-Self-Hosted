@@ -1,4 +1,3 @@
-
 name: Hello World Workflow
 
 on:
@@ -16,8 +15,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Hello World
         run: echo "Hello World from AWS EC2!"
+
+      - name: Runner information
+        run: |
+          echo "Running on EC2"
+          echo "Hostname: $(hostname)"
+          node -v
 
   goodbye:
     runs-on: self-hosted
