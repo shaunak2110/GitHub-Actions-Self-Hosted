@@ -1,0 +1,26 @@
+
+name: Hello World Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  hello:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Hello World
+        run: echo "Hello World from AWS EC2!"
+
+  goodbye:
+    runs-on: self-hosted
+    steps:
+      - name: Goodbye World
+        run: echo "Goodbye World from AWS EC2!"
